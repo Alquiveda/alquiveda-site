@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Alquiveda — Ayurveda y Arte-Terapia. Sesiones individuales, talleres y consultas online para reconectar con tu naturaleza esencial."/>
+<title>Alquiveda · Ayurveda & Arte-Terapia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Outfit:wght@200;300;400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #F1E3D3;
+  --accent: #6B705C;
+  --dark: #2E3027;
+  --light: #FFFFFF;
+  --muted: #9A917F;
+  --surface: #E8D5BF;
+  --border: #D4C3AE;
+  --warm: #C58C6D;
+  --sand: #DDBEA9;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Outfit', system-ui, sans-serif;
+  --header-h: 80px;
+  --max: 1200px;
+  --ease: cubic-bezier(.4,0,.2,1);
+  --ease-out: cubic-bezier(.0,0,.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 24px); }
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--dark);
+  padding-top: var(--header-h);
+  overflow-x: hidden;
+  line-height: 1.7;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+button { font-family: inherit; }
+
+/* ══ GRAIN OVERLAY ══ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* ══ HEADER ══ */
+.site-header {
+  position: fixed; inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 1000;
+  background: rgba(241,227,211,.72);
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  border-bottom: 1px solid rgba(212,195,174,.4);
+  transition: box-shadow .5s var(--ease), background .5s var(--ease);
+}
+.site-header.scrolled {
+  box-shadow: 0 4px 40px rgba(46,48,39,.08);
+  background: rgba(241,227,211,.88);
+}
+.header-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.logo-link {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--accent);
+  display: block;
+  transition: transform .4s var(--ease), box-shadow .4s var(--ease);
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 4px 16px rgba(46,48,39,.08);
+  background: var(--bg);
+}
+.logo-link:hover {
+  transform: scale(1.04);
+  box-shadow: 0 12px 44px rgba(46,48,39,.18);
+}
+.logo-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.site-nav { display: flex; gap: 36px; align-items: center; }
+.site-nav a {
+  font-size: .74rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dark);
+  position: relative;
+  transition: color .3s var(--ease);
+  font-weight: 400;
+}
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--accent);
+  transition: width .4s var(--ease);
+}
+.site-nav a:hover { color: var(--accent); }
+.site-nav a:hover::after { width: 100%; }
+
+/* hamburger */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+}
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--dark);
+  margin: 6px 0;
+  transition: .4s var(--ease);
+  transform-origin: center;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  top: var(--header-h);
+  left: 0; right: 0; bottom: 0;
+  background: rgba(241,227,211,.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+  pointer-events: none;
+}
+.mobile-drawer.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.mobile-drawer a {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 300;
+  letter-spacing: .08em;
+  color: var(--dark);
+  transition: color .3s;
+}
+.mobile-drawer a:hover { color: var(--accent); }
+
+/* ══ HERO ══ */
+#inicio {
+  min-height: 100svh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+  transform: scale(1.06);
+  animation: heroBreath 22s ease-in-out infinite alternate;
+}
+@keyframes heroBreath {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1.0); }
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 45%,
+      rgba(8,4,1,.68) 0%,
+      rgba(8,4,1,.52) 22%,
+      rgba(8,4,1,.32) 42%,
+      rgba(8,4,1,.14) 64%,
+      rgba(8,4,1,.02) 82%,
+      transparent 100%
+    );
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 80px 28px 140px;
+  max-width: 780px;
+}
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .62rem;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.75);
+  border: 1px solid rgba(255,255,255,.25);
+  padding: 8px 22px;
+  border-radius: 40px;
+  margin-bottom: 40px;
+  font-weight: 300;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp .9s .3s forwards;
+}
+.hero-pill::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--warm);
+  flex-shrink: 0;
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: .6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 300;
+  line-height: .95;
+  color: var(--light);
+  letter-spacing: .01em;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp 1.2s .5s forwards;
+}
+.hero-title em {
+  font-style: italic;
+  font-weight: 300;
+}
+.hero-sub {
+  font-size: clamp(.88rem, 2vw, 1.05rem);
+  color: rgba(255,255,255,.82);
+  font-weight: 200;
+  max-width: 480px;
+  margin: 0 auto 56px;
+  line-height: 1.95;
+  opacity: 0;
+  animation: fadeUp 1.1s .7s forwards;
+}
+.hero-actions {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1.1s .9s forwards;
+}
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+.btn-ghost {
+  padding: 14px 38px;
+  border: 1px solid rgba(255,255,255,.6);
+  color: var(--light);
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 300;
+  transition: all .4s var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+.btn-ghost::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--light);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--ease);
+  z-index: -1;
+}
+.btn-ghost:hover { color: var(--dark); border-color: var(--light); }
+.btn-ghost:hover::before { transform: scaleX(1); }
+.btn-solid {
+  padding: 14px 38px;
+  background: var(--accent);
+  color: var(--light);
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 300;
+  border: 1px solid var(--accent);
+  transition: all .4s var(--ease);
+}
+.btn-solid:hover {
+  background: #5a5e4d;
+  border-color: #5a5e4d;
+}
+.scroll-cue {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeUp 1s 1.6s forwards;
+}
+.scroll-cue-text {
+  font-size: .58rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.4);
+  font-weight: 300;
+}
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,.45));
+  animation: linePulse 2.4s 2s ease-in-out infinite;
+}
+@keyframes linePulse {
+  0%,100% { transform: scaleY(1); opacity: .4; }
+  50% { transform: scaleY(1.3); opacity: 1; }
+}
+
+/* ══ SECTION SPACER ══ */
+.section-spacer {
+  height: 80px;
+  background: linear-gradient(to bottom, var(--bg), var(--surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.spacer-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px rgba(107,112,92,.3), 0 2px 12px rgba(107,112,92,.15);
+  position: relative;
+}
+.spacer-dot::before,
+.spacer-dot::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+  width: 60px;
+}
+.spacer-dot::before {
+  right: calc(100% + 12px);
+  background: linear-gradient(to right, transparent, var(--border));
+}
+.spacer-dot::after {
+  left: calc(100% + 12px);
+  background: linear-gradient(to left, transparent, var(--border));
+}
+
+/* ══ UTILITIES ══ */
+.container { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+.sec-label {
+  display: inline-block;
+  font-size: .62rem;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  font-weight: 400;
+  position: relative;
+  padding-left: 32px;
+}
+.sec-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 1px;
+  background: var(--accent);
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--dark);
+}
+.sec-title em { font-style: italic; color: var(--accent); }
+.sec-lead {
+  font-size: .95rem;
+  color: var(--muted);
+  max-width: 520px;
+  line-height: 1.9;
+  margin-top: 18px;
+  font-weight: 300;
+}
+
+/* reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
+}
+.reveal.vis { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; }
+.d4 { transition-delay: .4s; }
+
+/* ══ SOBRE MÍ ══ */
+#sobre-mi { padding: 80px 0 100px; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 3fr 7fr;
+  gap: 48px;
+  align-items: stretch;
+}
+
+/* Marco fino Desert Sand */
+.about-img-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 10px;
+  background-color: rgba(221, 190, 169, 0.25);
+  border: 1px solid #DDBEA9;
+  border-radius: 4px;
+}
+
+.about-photo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center top;
+  filter: sepia(20%) contrast(105%) brightness(0.97);
+  border-radius: 2px;
+  transition: filter .5s var(--ease);
+}
+.about-photo:hover {
+  filter: sepia(0%) contrast(100%) brightness(1.02);
+}
+
+/* Estadísticas: 2 columnas con separador vertical */
+.about-stats {
+  display: flex;
+  width: 100%;
+  margin-top: 12px;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  justify-content: space-between;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.stat {
+  flex: 1;
+  padding: 0 10px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+}
+.stat:last-child {
+  border-right: none;
+}
+.stat-n {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  font-weight: 300;
+  color: var(--accent);
+  line-height: 1;
+}
+.stat-l {
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-top: 5px;
+}
+
+/* Columna de texto — alineada arriba con la imagen */
+.about-text {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0;
+  padding-top: 0;
+}
+.about-text p {
+  margin-bottom: 22px;
+  line-height: 1.9;
+  font-size: .95rem;
+  color: var(--muted);
+  font-weight: 300;
+  text-align: left;
+  text-align-last: left;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+.about-text p strong {
+  color: var(--dark);
+  font-weight: 500;
+}
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 13px 32px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  transition: all .4s var(--ease);
+  align-self: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.btn-outline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--ease);
+  z-index: -1;
+}
+.btn-outline:hover { color: var(--light); }
+.btn-outline:hover::before { transform: scaleX(1); }
+.btn-outline svg { transition: transform .3s var(--ease); }
+.btn-outline:hover svg { transform: translateX(4px); }
+
+/* ══ SERVICIOS ══ */
+#servicios { padding: 120px 0; background: var(--surface); position: relative; }
+#servicios::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
+}
+.servicios-head { text-align: center; margin-bottom: 72px; }
+.servicios-head .sec-label { padding-left: 0; }
+.servicios-head .sec-label::before { display: none; }
+.servicios-head .sec-lead { margin: 18px auto 0; }
+.servicios-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+.servicio-card {
+  background: var(--bg);
+  padding: 48px 36px 42px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.servicio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--accent), var(--warm));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .6s var(--ease);
+}
+.servicio-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 64px rgba(46,48,39,.1);
+}
+.servicio-card:hover::before { transform: scaleX(1); }
+.card-icon {
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  color: var(--accent);
+  transition: all .4s var(--ease);
+}
+.servicio-card:hover .card-icon {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--light);
+  transform: scale(1.08);
+}
+.card-tag {
+  font-size: .58rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--dark);
+  margin-bottom: 16px;
+}
+.card-desc {
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.85;
+  font-weight: 300;
+}
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 28px;
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 400;
+  transition: gap .35s var(--ease), color .3s;
+}
+.card-link:hover { gap: 16px; color: var(--warm); }
+
+/* ══ PROCESO ══ */
+#proceso { padding: 120px 0; }
+.proceso-head { max-width: 560px; margin-bottom: 80px; }
+.proceso-steps {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  position: relative;
+}
+.proceso-steps::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: calc(100%/6);
+  right: calc(100%/6);
+  height: 1px;
+  background: var(--border);
+  z-index: 0;
+}
+.paso {
+  text-align: center;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+.paso-num {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--accent);
+  transition: all .4s var(--ease);
+}
+.paso:hover .paso-num {
+  background: var(--accent);
+  color: var(--light);
+  border-color: var(--accent);
+  transform: scale(1.1);
+  box-shadow: 0 8px 24px rgba(107,112,92,.2);
+}
+.paso h3 {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 300;
+  color: var(--dark);
+  margin-bottom: 14px;
+}
+.paso p {
+  font-size: .88rem;
+  color: var(--muted);
+  line-height: 1.85;
+  font-weight: 300;
+}
+
+/* ══ CONTACTO ══ */
+#contacto {
+  padding: 120px 0;
+  background: var(--dark);
+  position: relative;
+}
+#contacto::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .03;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h1v1H0z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 96px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+.contacto-info .sec-label { color: rgba(255,255,255,.3); }
+.contacto-info .sec-label::before { background: rgba(255,255,255,.2); }
+.contacto-info .sec-title { color: var(--light); }
+.contacto-info .sec-title em { color: var(--sand); }
+.contacto-info .sec-lead { color: rgba(255,255,255,.45); }
+.contacto-data {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.dato {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.dato-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sand);
+  transition: border-color .3s;
+}
+.dato:hover .dato-icon { border-color: rgba(255,255,255,.25); }
+.dato-text strong {
+  display: block;
+  font-size: .64rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 3px;
+  font-weight: 400;
+}
+.dato-text span { font-size: .88rem; color: rgba(255,255,255,.65); font-weight: 300; }
+.dato-text a { transition: color .3s; }
+.dato-text a:hover { color: var(--sand); }
+.rrss {
+  margin-top: 44px;
+  display: flex;
+  gap: 14px;
+}
+.rrss-link {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.4);
+  transition: all .35s var(--ease);
+}
+.rrss-link:hover {
+  border-color: var(--sand);
+  color: var(--sand);
+  transform: translateY(-3px);
+}
+
+/* form */
+.contacto-form { display: flex; flex-direction: column; gap: 22px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label {
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.35);
+  font-weight: 400;
+}
+.field input, .field textarea, .field select {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1);
+  color: var(--light);
+  font-family: var(--sans);
+  font-size: .9rem;
+  font-weight: 300;
+  padding: 14px 18px;
+  outline: none;
+  transition: border-color .35s var(--ease), background .35s;
+  resize: vertical;
+  appearance: none;
+  border-radius: 2px;
+}
+.field input::placeholder, .field textarea::placeholder {
+  color: rgba(255,255,255,.18);
+  font-weight: 200;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  border-color: var(--sand);
+  background: rgba(255,255,255,.06);
+}
+.field select option { background: var(--dark); }
+.form-note {
+  font-size: .74rem;
+  color: rgba(255,255,255,.24);
+  line-height: 1.65;
+  font-weight: 300;
+}
+.btn-send {
+  padding: 15px 44px;
+  align-self: flex-start;
+  background: var(--bg);
+  color: var(--dark);
+  font-size: .7rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 400;
+  border: 1px solid var(--bg);
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all .4s var(--ease);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-send:hover {
+  background: var(--warm);
+  border-color: var(--warm);
+  color: var(--light);
+}
+.btn-send:disabled { opacity: .45; cursor: not-allowed; }
+.form-msg {
+  display: none;
+  padding: 14px 20px;
+  font-size: .86rem;
+  line-height: 1.55;
+  border-radius: 3px;
+  font-weight: 300;
+}
+.form-msg.ok {
+  background: rgba(107,112,92,.18);
+  color: #a8c4a0;
+  border: 1px solid rgba(107,112,92,.28);
+}
+.form-msg.error {
+  background: rgba(160,60,60,.18);
+  color: #e8a0a0;
+  border: 1px solid rgba(160,60,60,.28);
+}
+
+/* ══ FOOTER ══ */
+.site-footer {
+  background: #161812;
+  padding: 36px 32px;
+}
+.footer-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.footer-copy {
+  font-size: .68rem;
+  letter-spacing: .1em;
+  color: #FFFFFF;
+  font-weight: 300;
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: .28em;
+  color: rgba(206, 231, 42, 0.914);
+  text-transform: uppercase;
+}
+/* ══ RESPONSIVE ══ */
+@media (max-width: 960px) {
+  .site-nav { display: none; }
+  .nav-toggle { display: flex; flex-direction: column; }
+  .mobile-drawer { display: flex; }
+  .logo-link { width: 46px; height: 46px; }
+  .about-grid, .contacto-grid { grid-template-columns: 1fr; gap: 56px; }
+  .servicios-grid { grid-template-columns: 1fr; gap: 20px; }
+  .proceso-steps { grid-template-columns: 1fr; gap: 52px; }
+  .proceso-steps::before { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .header-inner { padding: 0 20px; }
+  .container { padding: 0 20px; }
+  .logo-link { width: 42px; height: 42px; }
+  .hero-title { font-size: clamp(3.4rem, 15vw, 5.5rem); }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .hero-actions a { width: 100%; max-width: 260px; text-align: center; }
+  .about-stats { flex-direction: column; align-items: center; gap: 18px; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 14px; width: 100%; }
+  .stat:last-child { border-bottom: none; }
+  .about-img-wrap { max-width: 100%; }
+  #servicios, #proceso, #contacto { padding: 80px 0; }
+  .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+}
+
+/* TESTIMONIOS */
+#testimonios{background:var(--surface);padding:120px 24px;}
+.testimonios-inner{max-width:var(--max);margin:0 auto;}
+.testimonios-head{text-align:center;margin-bottom:64px;}
+.testimonios-head .sec-label{display:block;margin-bottom:12px;}
+.testimonios-head h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:400;color:var(--dark);line-height:1.15;}
+.testimonios-head h2 em{font-style:italic;color:var(--accent);}
+.testimonios-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+.testimonio-card{background:var(--light);border:1px solid var(--border);border-radius:16px;padding:40px 32px;box-shadow:0 4px 20px rgba(46,48,39,.06);transition:transform .4s var(--ease),box-shadow .4s var(--ease);display:flex;flex-direction:column;}
+.testimonio-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(46,48,39,.12);}
+.testimonio-quote{font-family:var(--serif);font-size:1.05rem;font-style:italic;line-height:1.7;color:var(--dark);margin-bottom:24px;flex-grow:1;}
+.testimonio-quote::before{content:"\201C";font-size:2.5rem;color:var(--warm);line-height:0;vertical-align:-.4em;margin-right:4px;}
+.testimonio-author{font-family:var(--sans);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border-top:1px solid var(--border);padding-top:18px;}
+@media(max-width:900px){.testimonios-grid{grid-template-columns:1fr;gap:24px;}#testimonios{padding:80px 20px;}}
+/* LEGAL DETAILS */
+.legal-details{max-width:var(--max);margin:0 auto 24px;padding:0 24px;}
+.legal-details summary{cursor:pointer;font-size:.85rem;color:var(--accent);text-align:center;list-style:none;padding:12px;}
+.legal-details summary::-webkit-details-marker{display:none;}
+.legal-details .legal-body{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px 28px;font-size:.82rem;line-height:1.6;}
+.legal-details .legal-body h4{font-family:var(--serif);font-size:1rem;margin:14px 0 6px;color:var(--accent);}
+.legal-details .legal-body h4:first-child{margin-top:0;}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <div class="header-left">
+      <a href="#inicio" class="logo-link" aria-label="Alquiveda — inicio">
+        <img src="assets/logo.webp" alt="Alquiveda" width="62" height="62" loading="eager"/>
+      </a>
+    </div>
+    <nav class="site-nav" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-drawer">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="mobile-drawer" id="mobile-drawer" aria-label="Menú móvil">
+  <a href="#inicio">Inicio</a>
+  <a href="#sobre-mi">Sobre mí</a>
+  <a href="#servicios">Servicios</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+
+<section id="inicio" aria-label="Bienvenida">
+  <div class="hero-bg">
+    <img src="assets/look.webp" alt="Mujer en lago al atardecer" class="hero-img" width="1200" height="800" loading="eager"/>
+  </div>
+  <div class="hero-content">
+    <span class="hero-pill">Disponible · Online &amp; Presencial</span>
+    <h1 class="hero-title">Alqui<em>veda</em></h1>
+    <p class="hero-sub">
+      Donde el conocimiento milenario del Ayurveda<br/>
+      encuentra el lenguaje íntimo del Arte-Terapia.<br/>
+      Un camino de regreso hacia ti.
+    </p>
+    <div class="hero-actions">
+      <a href="#servicios" class="btn-ghost">Explorar servicios</a>
+      <a href="#contacto" class="btn-solid">Reservar sesión</a>
+    </div>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">
+    <span class="scroll-cue-text">Descubre</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="section-spacer" aria-hidden="true">
+  <div class="spacer-dot"></div>
+</div>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi" aria-label="Sobre mí">
+  <div class="container">
+    <div class="about-grid">
+
+      <!-- COLUMNA IZQUIERDA: IMAGEN + ESTADÍSTICAS -->
+      <div class="about-img-wrap reveal">
+        <img src="assets/fusion.webp" alt="Retrato artístico" class="about-photo" loading="lazy"/>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-n">20+</span>
+            <span class="stat-l">Años de práctica</span>
+          </div>
+          <div class="stat">
+            <span class="stat-n">300+</span>
+            <span class="stat-l">Personas acompañadas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA: TEXTO -->
+      <div class="about-text reveal d1">
+        <div class="ornament">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="3.5" stroke="#6B705C" stroke-width="1"/>
+            <line x1="8" y1="0" x2="8" y2="4.5" stroke="#6B705C" stroke-width="1"/>
+            <line x1="8" y1="11.5" x2="8" y2="16" stroke="#6B705C" stroke-width="1"/>
+            <line x1="0" y1="8" x2="4.5" y2="8" stroke="#6B705C" stroke-width="1"/>
+            <line x1="11.5" y1="8" x2="16" y2="8" stroke="#6B705C" stroke-width="1"/>
+          </svg>
+        </div>
+        <span class="sec-label">Sobre mí</span>
+        <h2 class="sec-title">Una práctica nacida<br>de la <em>búsqueda interior</em></h2>
+        <div style="margin-top:22px;">
+          <p>Hola, soy Puska. Terapeuta especializada en integrar la sabiduría del Ayurveda —la medicina tradicional india— con el poder transformador del proceso creativo.</p>
+          <p>El Ayurveda no es solo una terapia, es un sistema de vida cuyo objetivo principal es restablecer el equilibrio entre cuerpo, mente y espíritu. Su finalidad es prevenir el desequilibrio antes de que se convierta en enfermedad.</p>
+          <ul>
+            <li><strong>Para el estrés y ansiedad:</strong> Masajes con aceites calientes y aromaterapia para calmar el sistema nervioso.</li>
+            <li><strong>Para bloqueos digestivos:</strong> Dietas personalizadas y hierbas adaptógenas para revitalizar el fuego digestivo.</li>
+            <li><strong>Para fatiga crónica:</strong> Rutinas de sueño y meditación para recuperar la vitalidad perdida.</li>
+          </ul>
+          <p>Con años de experiencia como terapeuta, he acompañado a cientos de personas a sanar desde la raíz. Integro estos conocimientos con la arteterapia, usándola como espejo para que tu psique hable sin filtros.</p>
+          <p>Mi objetivo es desenmascarar la raíz de tu estancamiento. En este espacio seguro, rompo el molde que te impide avanzar, permitiéndote reconectarte con tu esencia para que la mente y el SER vuelvan a dialogar.</p>
+        </div>
+        <a href="#contacto" class="btn-outline">Conoce mi enfoque</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="testimonios" aria-label="Testimonios">
+  <div class="testimonios-inner">
+    <div class="testimonios-head reveal">
+      <span class="sec-label">Testimonios</span>
+      <h2>Lo que dicen <em>mis clientes</em></h2>
+    </div>
+    <div class="testimonios-grid">
+      <article class="testimonio-card reveal d1">
+        <p class="testimonio-quote">Llevaba años trabajando bajo presión y mi cuerpo no daba más. Las sesiones con Puska me enseñaron a escuchar mis señales antes de colapsar. Los masajes ayurvédicos y las rutinas de respiración cambiaron mi forma de vivir el día a día. Ahora gestiono el estrés sin que me controle a mí.</p>
+        <p class="testimonio-author">María G. · Ejecutiva, 42 años</p>
+      </article>
+      <article class="testimonio-card reveal d2">
+        <p class="testimonio-quote">Con el diagnóstico de Parkinson pensé que mi vida había terminado. Puska no prometió curas milagrosas, pero me dio herramientas para convivir mejor con la enfermedad. Los aceites, la dieta y los ejercicios suaves han ralentizado mi deterioro y he recuperado cierta movilidad que había perdido. Es un acompañamiento que respeta el proceso.</p>
+        <p class="testimonio-author">Roberto L. · Paciente, 58 años</p>
+      </article>
+      <article class="testimonio-card reveal d3">
+        <p class="testimonio-quote">La psoriasis me había afectado tanto la piel como la autoestima. Los tratamientos convencionales solo tapaban los síntomas. Con el enfoque de Puska, trabajamos desde el interior: alimentación, estrés y emociones. Las lesiones han disminuido notablemente y, por primera vez en años, me miro al espejo sin vergüenza.</p>
+        <p class="testimonio-author">Ana P. · Paciente, 35 años</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="container">
+    <div class="servicios-head">
+      <span class="sec-label reveal">Lo que ofrezco</span>
+      <h2 class="sec-title reveal d1">Tres caminos,<br/><em>una misma raíz</em></h2>
+      <p class="sec-lead reveal d2">Cada sesión se adapta a tu constitución única (doshas) y a lo que necesitas en este momento de tu vida.</p>
+    </div>
+    <div class="servicios-grid">
+      <article class="servicio-card reveal d1">
+        <div class="card-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="8" r="4.5" stroke="currentColor" stroke-width="1"/>
+            <path d="M2 21c0-4.97 4.03-9 9-9s9 4.03 9 9" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </div>
+        <span class="card-tag">Presencial · Online</span>
+        <h3 class="card-title">Sesión<br/>Individual</h3>
+        <p class="card-desc">Consulta personalizada donde exploramos tu constitución ayurvédica y utilizamos el proceso artístico como herramienta de autoconocimiento profundo.</p>
+        <a href="#contacto" class="card-link">Reservar <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+      </article>
+      <article class="servicio-card reveal d2">
+        <div class="card-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="7.5" cy="8" r="3.5" stroke="currentColor" stroke-width="1"/>
+            <circle cx="14.5" cy="8" r="3.5" stroke="currentColor" stroke-width="1"/>
+            <path d="M1 20c0-3.87 2.91-7 6.5-7M21 20c0-3.87-2.91-7-6.5-7M8.5 20c0-3.87 2.24-7 5-7" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </div>
+        <span class="card-tag">Grupal · Trimestral</span>
+        <h3 class="card-title">Talleres<br/>Vivenciales</h3>
+        <p class="card-desc">Espacios grupales donde el Ayurveda y el arte se cruzan para crear comunidad, reflexión y transformación compartida en un ambiente seguro.</p>
+        <a href="#contacto" class="card-link">Más información <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+      </article>
+      <article class="servicio-card reveal d3">
+        <div class="card-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="2" y="4" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1"/>
+            <path d="M7 20h8M11 16v4" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+            <circle cx="11" cy="10" r="2.5" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </div>
+        <span class="card-tag">Online · Internacional</span>
+        <h3 class="card-title">Consulta<br/>Online</h3>
+        <p class="card-desc">Acompañamiento a distancia sin perder profundidad ni presencia. Disponible para cualquier parte del mundo. Misma dedicación, sin límites geográficos.</p>
+        <a href="#contacto" class="card-link">Comenzar <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="container">
+    <div class="proceso-head">
+      <span class="sec-label reveal">Cómo trabajo</span>
+      <h2 class="sec-title reveal d1">El proceso de<br/><em>acompañamiento</em></h2>
+      <p class="sec-lead reveal d2">Cada persona es única. Este marco general se adapta siempre a tu ritmo y necesidades.</p>
+    </div>
+    <div class="proceso-steps">
+      <div class="paso reveal d1">
+        <div class="paso-num">01</div>
+        <h3>Escucha &amp; Diagnóstico</h3>
+        <p>Primera sesión donde determinamos tu constitución ayurvédica y comprendemos tu historia desde una mirada integral y sin juicios.</p>
+      </div>
+      <div class="paso reveal d2">
+        <div class="paso-num">02</div>
+        <h3>Proceso Creativo</h3>
+        <p>El arte como herramienta, no como producto. Pintamos, modelamos o escribimos para dar forma a lo que las palabras no alcanzan a nombrar.</p>
+      </div>
+      <div class="paso reveal d3">
+        <div class="paso-num">03</div>
+        <h3>Integración &amp; Seguimiento</h3>
+        <p>Cerramos cada ciclo con prácticas concretas: meditación, respiración, alimentación consciente y recursos para continuar el camino.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="container">
+    <div class="contacto-grid">
+      <div class="contacto-info">
+        <span class="sec-label reveal">Hablemos</span>
+        <h2 class="sec-title reveal d1">Inicia tu<br/><em>proceso hoy</em></h2>
+        <p class="sec-lead reveal d2">Cuéntame qué te trae aquí. La primera conversación no compromete a nada.</p>
+        <div class="contacto-data reveal d3">
+          <div class="dato">
+            <div class="dato-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <rect x="1" y="2.5" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1"/>
+                <path d="M1 4l6.5 4.5L14 4" stroke="currentColor" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="dato-text">
+              <strong>Email</strong>
+              <span><a href="mailto:info@alquiveda.com" style="color: rgba(255,255,255,.65);">info@alquiveda.com</a></span>         </div>
+          </div>
+          <div class="dato">
+            <div class="dato-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <path d="M7.5 1a5.5 5.5 0 00-5.5 5.5c0 3.5 5.5 8.5 5.5 8.5s5.5-5 5.5-8.5A5.5 5.5 0 007.5 1z" stroke="currentColor" stroke-width="1"/>
+                <circle cx="7.5" cy="6.5" r="1.8" stroke="currentColor" stroke-width="1"/>
+              </svg>
+            </div>
+            <div class="dato-text">
+              <strong>Modalidad</strong>
+              <span>Online · Disponible internacionalmente</span>
+            </div>
+          </div>
+          <div class="dato">
+            <div class="dato-icon" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1"/>
+                <path d="M7.5 4v3.5l2 2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="dato-text">
+              <strong>Respuesta</strong>
+              <span>En menos de 48 horas</span>
+            </div>
+          </div>
+<div class="rrss reveal d4" aria-label="Redes sociales">
+  <a href="https://wa.me/34641181723" class="rrss-link" aria-label="WhatsApp" target="_blank" rel="noopener">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 21l1.65-4.5A9 9 0 1112 21H3z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5 9.5c.5 2.5 3.5 5.5 6 6l1.5-1.5-2-1-1 1c-1-.5-2-1.5-2.5-2.5l1-1-1-2-1.5 1z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+        </div>
+      </div>
+      <div class="reveal d2">
+        <form id="contact-form" action="https://formsubmit.co/info@alquiveda.com" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="Nueva consulta desde Alquiveda"/>
+          <input type="hidden" name="_captcha" value="false"/>
+          <input type="text" name="_honey" style="display:none" tabindex="-1" aria-hidden="true"/>
+          <div class="contacto-form">
+            <div class="form-row">
+              <div class="field">
+                <label for="nombre">Nombre *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required autocomplete="given-name"/>
+              </div>
+              <div class="field">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="tu@email.com" required autocomplete="email"/>
+              </div>
+            </div>
+            <div class="field">
+              <label for="servicio">Me interesa</label>
+              <select id="servicio" name="servicio">
+                <option value="" disabled selected>Selecciona un servicio…</option>
+                <option value="individual">Sesión individual</option>
+                <option value="taller">Taller vivencial</option>
+                <option value="online">Consulta online</option>
+                <option value="otro">Otro / Tengo una pregunta</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="mensaje">Tu mensaje *</label>
+              <textarea id="mensaje" name="mensaje" rows="5" placeholder="Cuéntame qué te trae aquí…" required></textarea>
+            </div>
+            <p class="form-note">* Campos obligatorios. Tu información es confidencial.</p>
+            <div id="form-msg" class="form-msg" role="alert" aria-live="polite"></div>
+            <button type="submit" class="btn-send">Enviar mensaje</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ LEGAL · PRIVACIDAD Y TÉRMINOS ══════════ -->
+<style>
+/* ══ LEGAL SECTION ══ */
+.legal-section {
+  background: var(--bg);
+  padding: 96px 24px 72px;
+  position: relative;
+}
+.legal-inner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+.legal-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 400;
+  color: var(--dark);
+  text-align: center;
+  letter-spacing: -.01em;
+  margin-bottom: 14px;
+}
+.legal-title em { font-style: italic; color: var(--accent); }
+.legal-intro {
+  text-align: center;
+  color: var(--accent);
+  font-size: 1rem;
+  max-width: 560px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+.legal-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.legal-item {
+  background: rgba(255,255,255,.35);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color .4s var(--ease), background .4s var(--ease);
+}
+.legal-item:hover { border-color: var(--accent); }
+.legal-item.is-open {
+  background: rgba(255,255,255,.55);
+  border-color: var(--accent);
+}
+.legal-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 28px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--dark);
+  text-align: left;
+  letter-spacing: .005em;
+  transition: color .3s var(--ease);
+}
+.legal-trigger:hover { color: var(--accent); }
+.legal-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.legal-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+  transition: transform .4s var(--ease);
+}
+.legal-item.is-open .legal-icon { transform: rotate(180deg); }
+.legal-panel {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .5s var(--ease);
+}
+.legal-panel[hidden] { display: block; } /* we control with max-height, not display */
+.legal-content {
+  padding: 4px 28px 28px;
+  color: var(--dark);
+  font-size: .94rem;
+  line-height: 1.75;
+}
+.legal-content p { margin-bottom: 14px; }
+.legal-content h4 {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 22px 0 8px;
+  letter-spacing: .005em;
+}
+.legal-content h4:first-child { margin-top: 6px; }
+.legal-content ul {
+  list-style: none;
+  margin: 6px 0 14px;
+  padding: 0;
+}
+.legal-content ul li {
+  position: relative;
+  padding-left: 18px;
+  margin-bottom: 6px;
+}
+.legal-content ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: .75em;
+  width: 6px;
+  height: 1px;
+  background: var(--accent);
+}
+.legal-content strong { font-weight: 500; color: var(--dark); }
+.legal-content a {
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  transition: border-color .3s var(--ease);
+}
+.legal-content a:hover { border-color: var(--accent); }
+.legal-updated {
+  text-align: center;
+  font-size: .82rem;
+  color: var(--muted);
+  margin-top: 40px;
+  font-style: italic;
+  letter-spacing: .02em;
+}
+@media (max-width: 640px) {
+  .legal-section { padding: 72px 20px 56px; }
+  .legal-trigger { padding: 18px 20px; font-size: 1.18rem; }
+  .legal-content { padding: 4px 20px 22px; font-size: .9rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .legal-panel, .legal-icon, .legal-item { transition: none; }
+}
+</style>
+
+<details class="legal-details">
+  <summary>Política de Privacidad y Términos</summary>
+  <div class="legal-body">
+    <h4>Política de Privacidad</h4>
+    <p>Los datos personales facilitados a través de los formularios de este sitio se tratan de forma confidencial y únicamente para gestionar tu consulta o reserva de sesión. No se ceden a terceros. Puedes ejercer tus derechos de acceso, rectificación y supresión escribiendo al correo de contacto.</p>
+    <h4>Términos de Uso</h4>
+    <p>El contenido de Alquiveda tiene finalidad informativa y de acompañamiento terapéutico complementario. No sustituye el diagnóstico ni tratamiento médico convencional. El uso del sitio implica la aceptación de estas condiciones.</p>
+    <h4>Cookies</h4>
+    <p>Este sitio utiliza únicamente cookies técnicas necesarias para su funcionamiento. No se emplean cookies de seguimiento ni publicitarias.</p>
+  </div>
+</details>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-copy">© <span id="year"></span> Alquiveda · Todos los derechos reservados</p>
+    <span class="footer-brand">Alquiveda</span>
+    <p class="footer-copy">Disponible · Online &amp; Presencial</p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+'use strict';
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* header scroll effect */
+const header = document.querySelector('.site-header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 12);
+}, { passive: true });
+
+/* mobile menu */
+const toggle = document.querySelector('.nav-toggle');
+const drawer = document.getElementById('mobile-drawer');
+toggle.addEventListener('click', () => {
+  const open = toggle.classList.toggle('open');
+  drawer.classList.toggle('open', open);
+  toggle.setAttribute('aria-expanded', String(open));
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+drawer.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    toggle.classList.remove('open');
+    drawer.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  });
+});
+
+/* reveal on scroll */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('vis');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* contact form */
+const form = document.getElementById('contact-form');
+const msgBox = document.getElementById('form-msg');
+
+function showMsg(text, type) {
+  msgBox.textContent = text;
+  msgBox.className = 'form-msg ' + type;
+  msgBox.style.display = 'block';
+  msgBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const nombre  = form.nombre.value.trim();
+  const email   = form.email.value.trim();
+  const mensaje = form.mensaje.value.trim();
+
+  if (!nombre)  { showMsg('Por favor escribe tu nombre.', 'error'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMsg('Email no válido.', 'error'); return; }
+  if (!mensaje) { showMsg('El mensaje no puede estar vacío.', 'error'); return; }
+
+  const btn = form.querySelector('.btn-send');
+  const orig = btn.textContent;
+  btn.textContent = 'Enviando…';
+  btn.disabled = true;
+  msgBox.style.display = 'none';
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      showMsg('¡Mensaje enviado! Te responderé pronto. 🌿', 'ok');
+      form.reset();
+    } else {
+      showMsg('Error al enviar. Inténtalo de nuevo.', 'error');
+    }
+  } catch (err) {
+    showMsg('Error de conexión. Revisa tu internet.', 'error');
+  } finally {
+    btn.textContent = orig;
+    btn.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>
